@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:jbossts="http://www.mulesoft.org/schema/mule/jbossts" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+<mule xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:jbossts="http://www.mulesoft.org/schema/mule/jbossts" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:spring="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
@@ -10,10 +10,15 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/jbossts http://www.mulesoft.org/schema/mule/jbossts/current/mule-jbossts.xsd">
     <jms:activemq-connector name="Active_MQ" brokerURL="tcp://localhost:61616" validateConnections="true" doc:name="Active MQ"/>
     <http:listener-config name="HTTP_Listener_Configuration" host="localhost" port="8075" basePath="/pub" doc:name="HTTP Listener Configuration"/>
+    <jms:activemq-connector name="Active_MQ_SUBSCRIBER" brokerURL="tcp://localhost:61616" validateConnections="true" clientId="100111101" durable="true" doc:name="Active MQ"/>
     <flow name="publisherFlow">
         <http:listener config-ref="HTTP_Listener_Configuration" path="/" doc:name="HTTP"/>
         <jms:outbound-endpoint topic="MyLocalTopic" connector-ref="Active_MQ" doc:name="JMS-ActiveMQ">
             <xa-transaction action="NONE"/>
         </jms:outbound-endpoint>
+    </flow>
+    <flow name="subscriptionFlow">
+        <jms:inbound-endpoint topic="MyLocalTopic" connector-ref="Active_MQ_SUBSCRIBER" doc:name="JMS-SUBSCRIBER"/>
+        <logger message="100111101: #[payload]" level="INFO" doc:name="Logger"/>
     </flow>
 </mule>
