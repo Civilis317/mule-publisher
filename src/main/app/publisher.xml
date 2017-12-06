@@ -13,6 +13,7 @@ http://www.mulesoft.org/schema/mule/jbossts http://www.mulesoft.org/schema/mule/
     <jms:activemq-connector name="Active_MQ_SUBSCRIBER" brokerURL="tcp://localhost:61616" validateConnections="true" clientId="100111101" durable="true" doc:name="Active MQ"/>
     <flow name="publisherFlow">
         <http:listener config-ref="HTTP_Listener_Configuration" path="/" doc:name="HTTP"/>
+        <byte-array-to-string-transformer doc:name="Byte Array to String"/>
         <jms:outbound-endpoint topic="MyLocalTopic" connector-ref="Active_MQ" doc:name="JMS-ActiveMQ">
             <xa-transaction action="NONE"/>
         </jms:outbound-endpoint>
