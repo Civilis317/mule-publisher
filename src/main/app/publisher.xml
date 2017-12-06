@@ -14,6 +14,9 @@ http://www.mulesoft.org/schema/mule/jbossts http://www.mulesoft.org/schema/mule/
     <flow name="publisherFlow">
         <http:listener config-ref="HTTP_Listener_Configuration" path="/" doc:name="HTTP"/>
         <byte-array-to-string-transformer doc:name="Byte Array to String"/>
+        <response>
+            <set-payload value="&lt;message-published&gt;true&lt;/publish-response&gt;" doc:name="Set Payload"/>
+        </response>
         <jms:outbound-endpoint topic="MyLocalTopic" connector-ref="Active_MQ" doc:name="JMS-ActiveMQ">
             <xa-transaction action="NONE"/>
         </jms:outbound-endpoint>
