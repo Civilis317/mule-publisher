@@ -9,7 +9,7 @@ http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/jbossts http://www.mulesoft.org/schema/mule/jbossts/current/mule-jbossts.xsd">
     <jms:activemq-connector name="Active_MQ" brokerURL="${jms.broker.url}" validateConnections="true" doc:name="Active MQ"/>
-    <http:listener-config name="HTTP_Listener_Configuration" host="localhost" port="${http.port}" basePath="${app.context.path}" doc:name="HTTP Listener Configuration"/>
+    <http:listener-config name="HTTP_Listener_Configuration" host="${app.host}" port="${http.port}" basePath="${app.context.path}" doc:name="HTTP Listener Configuration"/>
     <jms:activemq-connector name="Active_MQ_SUBSCRIBER" brokerURL="${jms.broker.url}" validateConnections="true" clientId="${jms.client.id}" durable="true" doc:name="Active MQ"/>
     <flow name="publisherFlow">
         <http:listener config-ref="HTTP_Listener_Configuration" path="/" doc:name="HTTP"/>
