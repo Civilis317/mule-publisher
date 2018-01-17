@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  activemq:
+    image: "192.168.27.100:6010/boip.infra/activemq:latest"
+    container_name: "activemq-dev"
+    ports:
+      - 8161:8161
+      - 61616:61616
+      - 61613:61613
+      - 1098:1098
+      - 1099:1099
+    volumes:
+      - ./volumes/activemq/data:/opt/activemq/data
+	networks:
+	  - pubsubnet
+  
+  mule:
+    image: "192.168.27.100:6010/boip.infra/mule:latest"
+    container_name: "mule-dev"
+    ports:
+      - 8081:8081
+      - 8084:8084
+    volumes:
+      - ./volumes/mule/apps:/opt/mule/apps
+      - ./volumes/mule/logs:/opt/mule/logs
+	networks:
+	  - pubsubnet
+	  
+networks:
+  pubsubnet:
